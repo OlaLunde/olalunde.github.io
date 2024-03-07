@@ -1,0 +1,28 @@
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+ 
+main {
+    background-color: white;
+    margin: 20px auto;
+ 
+    width: 95%;
+    max-width: 500px;
+    
+    border: 2px solid #000;
+    border-radius: 15px;
+ 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+ 
+input, button, p {
+    font-size: 20px;
+    padding: 5px;
+}
+ 
+button {
+    margin: 20px;
+    cursor: pointer;
+}
