@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gravity simulator</title>
+</head>
+<body onload="init()">
+   
+
+    <script>
+        var canvas, ctx, container;
+        canvas = document.createElement('canvas');
+        ctx = canvas.getContext('2d')
+        
+        var ball;
+        var message = "gravity simualtor"
+
+        // velocity x
+        var vx = 5.0;
+
+        //velocity y - randomly set
+        var vy;
+
+        var gravity = 5.0;
+        var bounce = 0.7;
+        var xFriction = 0.1;
+
+        function init(){
+            setupCanvas();
+            vy = (Math.random()* -15)+ -5
+            ball = {x:canvas.width / 2, y:100, radius:20, status: 0, color:"red"};
+
+            window.addEventListener('resize', function() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+
+        }
+
+        function draw(){
+            ctx.clearRect(0,0,canvas.width, canvas.height)
+
+                ctx.fillStyle = "blue";
+                ctx.font = "20px Arial";
+                ctx.fillText(message, 20, 20);
+
+            // draw circle
+                ctx.beginPath();
+                ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI*2, false);
+                ctx.fillStyle = ball.color;
+                ctx.fill();
+                ctx.closePath();
+
+            ballMovement();
+        }
+
+        setInterval(draw, 1000/35)
+
+        function ballMovement(){
+            ball.x += vx
+            ball.y += vy
+            vy += gravity
+
+            // hvis ballen treffer vegg skal retning endres 
+            if (ball.x + ball.radius > canvas.width || ball.x - ball.radius < 0){
+                vx *= -1
+            }
+
+            if(ball.y + ball.radius > canvas.height){ // ||
+                ball.y = canvas.height - ball.radius;
+                vy *= -bounce;
+
+                if(vy<0 && vy>-17.809){
+                    vy = 0;
+                }
+
+                if(Math.abs(vx)<1.1)
+                    vx=0;
+
+                xF();
+            }
+        }
+
+        function xF(){
+            if(vx>0){
+                vx = vx - xFriction
+            }
+            if(vx<0){
+                vx = vx + xFriction
+            }
+        }
+
+
+
+        function setupCanvas(){
+            container = document.createElement('div');
+            container.className = "container"
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            document.body.appendChild(container);
+            container.appendChild(canvas);
+
+            ctx.strokeStyle = "#ffffff";
+            ctx.lineWidth = 2;
+        }
+    </script>
+</body>
+</html>
